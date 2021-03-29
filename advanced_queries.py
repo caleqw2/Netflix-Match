@@ -1,14 +1,25 @@
 # Joins, set operations, aggregation, subqueries
 
 # Beth: actors who have been in movies with director Martin Scorsese and number of movies they've been in, in order by how many movies they've been in (join and group by)
-# Shagun: Actors that have starred in at least 3 roles in Chinese movies (join and subquery)
+# Shagun: Actors that have acted in Chinese Comedies (join and subquery)
 # Cale: for each genre, find number of R rated movies (join, group by)
 
+
 # Shagun
+#  SELECT a.actor_name, a.actor_id, genre_name
+#  FROM Actors a NATURAL JOIN Roles NATURAL JOIN GenreTags NATURAL JOIN Media
+#  WHERE (country = "China" AND genre_name = "Comedies") 
+#  GROUP BY actor_id
+#  ORDER BY a.actor_name ASC
+#  LIMIT 20
+
+#(this one doesn't work but keep it here)
 # SELECT actor_name
 # FROM Actors JOIN Roles on actor_id JOIN Media on media_id JOIN
 #   (SELECT COUNT(media_id) as num_roles FROM Roles)
 # WHERE country = "China" AND num_roles >= 3
+
+
 
 # Beth
 # SELECT a.actor_name, COUNT(DISTINCT m.media_id) as media_count
@@ -31,13 +42,16 @@
 
 # Alice
 # SUBQUERY
-# (SELECT a.actor_name, m.media_id
+# SELECT a.actor_name, COUNT(DISTINCT m.media_id)
 # FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m NATURAL JOIN GenreTags g
-# WHERE g.genre_name = "Romantic Movies")
+# WHERE g.genre_name = "Romantic Movies"
+# GROUP BY actor_id
 # UNION
-# (SELECT a.actor_name, m.media_id
-# FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m NATURAL JOIN GenreTags g
-# WHERE g.genre_name = "Horror Movies")
+# SELECT a.actor_name, COUNT(DISTINCT m.media_id)
+# FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m
+# WHERE m.country = "Australia" 
+# GROUP BY actor_id
+# ORDER BY actor_name
 
 # SELECT A.actor_name
 # FROM Actors A
