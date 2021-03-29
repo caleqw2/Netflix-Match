@@ -25,13 +25,14 @@ for row in data.itertuples():
         # if the actor doesn't have a registered ID, give them one
         if name not in actor_ids:
             actor_ids[name] = actor_id
+            formatted_name = str(name).replace("'", "''")
+            mycursor.execute(f"INSERT INTO Actors VALUES ({actor_ids[name]}, '{formatted_name}', {0})")
             actor_id += 1
         
         cur_actor_id = actor_ids[name]
 
-        sql_command = f'''INSERT INTO Actors VALUES (
-            {actor_id},
-            "{name}",
+        sql_command = f'''INSERT INTO Roles VALUES (
+            {cur_actor_id},
             {media_id}
         )'''
 
@@ -43,9 +44,8 @@ for row in data.itertuples():
 mycursor.execute("SELECT COUNT(*) FROM Actors")
 
 myresult = mycursor.fetchall()
-
 for x in myresult:
   print(x)
 
-# mydb.commit()
-# mydb.close()
+mydb.commit()
+mydb.close()
