@@ -34,7 +34,7 @@
 # (SELECT a.actor_name, m.media_id
 # FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m NATURAL JOIN GenreTags g
 # WHERE g.genre_name = "Romantic Movies")
-# OR
+# UNION
 # (SELECT a.actor_name, m.media_id
 # FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m NATURAL JOIN GenreTags g
 # WHERE g.genre_name = "Horror Movies")
