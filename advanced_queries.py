@@ -17,15 +17,13 @@
 # GROUP BY actor_id
 # ORDER BY media_count ASC
 
-#Cale
+# Cale
 # SELECT genre_name, COUNT(DISTINCT media_id)
 # FROM GenreTags g NATURAL JOIN Media m
 # WHERE m.rating = "R"
 # GROUP BY genre_name
 
 # mycursor.execute("""SELECT m.media_title FROM Media m NATURAL JOIN Roles r NATURAL JOIN Actors a WHERE a.actor_name = \"Taylor Swift\"""")
-
-
 
 
 #Alice

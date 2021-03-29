@@ -1,5 +1,21 @@
-test_str = "Here's a mighty fine \"quote\""
+import mysql.connector as msc
 
-test_str = test_str.replace("'", "''")
+# Connect to the database
+mydb = msc.connect(
+    host="104.197.222.175",
+    user="root",
+    password="12345",
+    database="netflix_match"
+)
 
-print(test_str)
+mycursor = mydb.cursor()
+
+# INSERT QUERY HERE
+mycursor.execute("""
+
+""")
+
+# Gather results
+myresult = mycursor.fetchall()
+for x in myresult:
+  print(x)
