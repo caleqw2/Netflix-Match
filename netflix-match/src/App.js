@@ -24,9 +24,9 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          React front end with flask back end
         </a>
-        <p>Flask says {placeholder}</p>
+        <p>Data from advanced query {placeholder}</p>
       </header>
     </div>
   );
