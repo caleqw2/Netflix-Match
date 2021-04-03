@@ -1,3 +1,5 @@
+# test hi
+#testing a push
 # Joins, set operations, aggregation, subqueries
 
 # Beth: actors who have been in movies with director Martin Scorsese and number of movies they've been in, in order by how many movies they've been in (join and group by)
