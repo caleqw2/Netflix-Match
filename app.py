@@ -17,10 +17,10 @@ def show_beth_adv_query_result():
   mycursor = mydb.cursor()
 
   mycursor.execute("""SELECT a.actor_name, COUNT(DISTINCT m.media_id) as media_count
-FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m
-WHERE m.director = "Martin Scorsese"
-GROUP BY actor_id
-ORDER BY media_count DESC""")
+  FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m
+  WHERE m.director = "Martin Scorsese"
+  GROUP BY actor_id
+  ORDER BY media_count DESC""")
 
   myresult = mycursor.fetchall()
 
