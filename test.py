@@ -2,7 +2,7 @@ import mysql.connector as msc
 
 # Connect to the database
 mydb = msc.connect(
-    host="104.197.222.175",
+    host="104.197.38.184",
     user="root",
     password="12345",
     database="netflix_match"
