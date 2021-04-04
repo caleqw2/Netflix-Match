@@ -26,7 +26,9 @@ function App() {
         >
           React front end with flask back end
         </a>
-        <p>Data from advanced query {placeholder}</p>
+
+        <p> Data from advanced query: {placeholder} </p>
+
       </header>
     </div>
   );
