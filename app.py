@@ -29,9 +29,6 @@ def show_beth_adv_query_result():
 
   myresult = mycursor.fetchall()
 
-  for x in myresult:
-    print(x)
-
   mydb.commit()
   mydb.close()
   
@@ -55,8 +52,13 @@ def create_user_watch_list_entry():
 
   mycursor.execute("INSERT INTO UserWatchlistEntry VALUES ({}, {}, {})".format(user_id, media_id, watched))
 
+  mycursor.execute("SELECT * FROM UserWatchlistEntry WHERE user_id = '{}' AND media_id = '{}'".format(user_id, media_id))
+  myresult = mycursor.fetchall()
+
   mydb.commit()
   mydb.close()
+
+  return {'result' : myresult}
 
 # /look_up_show_name?keywork=abcd
 @app.route('/look_up_show_name')
@@ -74,13 +76,7 @@ def look_up_show_name():
 
   mycursor.execute("SELECT MediaTitle FROM UserWatchlistEntry NATURAL JOIN Media WHERE MediaTitle LIKE '%{}%'".format(keyword))
 
-  mydb.commit()
-  mydb.close()
-
   myresult = mycursor.fetchall()
-
-  for x in myresult:
-    print(x)
 
   mydb.commit()
   mydb.close()
@@ -105,12 +101,17 @@ def update_user_watch_list_entry():
 
   mycursor.execute("UPDATE UserWatchlistEntry SET watched = {} WHERE user_id = {} AND media_id = {}".format(watched, user_id, media_id))
 
+  mycursor.execute("SELECT * FROM UserWatchlistEntry WHERE user_id = '{}' AND media_id = '{}'".format(user_id, media_id))
+  myresult = mycursor.fetchall()
+
   mydb.commit()
   mydb.close()
 
+  return {'result': myresult}
+
 # /delete_user_watch_list_entry?user_id=0&media_id=0
 @app.route('/delete_user_watch_list_entry')
-def update_user_watch_list_entry():
+def delete_user_watch_list_entry():
   user_id = request.args.get('user_id')
   media_id = request.args.get('media_id')
 
