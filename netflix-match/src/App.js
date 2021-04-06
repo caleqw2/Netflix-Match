@@ -17,7 +17,8 @@ class App extends React.Component {
     this.handleChangeMedianame = this.handleChangeMedianame.bind(this);
     this.handleChangeWatched = this.handleChangeWatched.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
+    
+    this.createWatchlistEntry = this.createWatchlistEntry.bind(this);
     this.advancedQuery = this.advancedQuery.bind(this);
   }
 
@@ -30,8 +31,9 @@ class App extends React.Component {
   }
 
   createWatchlistEntry() {
-    fetch('/create_user_watch_list_entry?user_id=' + this.state.user_id + '&media_id=' 
-      + this.state.media_id + '&watched=' + this.state.watched).then(res => res.json()).then(data => {
+    var query_str = `/create_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}&watched=${this.state.watched}`;
+    
+    fetch({query_str}).then(res => res.json()).then(data => {
       this.setState(state => ({
         create_query_result: data.result
       }));
@@ -51,7 +53,7 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('Username: ' + this.state.user_name + ' ' + 'Media name: ' + this.state.media_name + ' ' + 'Watched: ' + this.state.watched);
+    alert('Username: ' + this.state.user_name + ' Media name: ' + this.state.media_name + ' Watched: ' + this.state.watched);
     event.preventDefault();
   }
 
