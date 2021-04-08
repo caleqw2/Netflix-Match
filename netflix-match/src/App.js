@@ -8,6 +8,7 @@ class App extends React.Component {
     this.state = {
       avd_query_result: 'Click to reveal',
       create_query_result: 'Click to reveal',
+      update_query_result: 'Click to reveal',
       lookup_result: 'Click to reveal',
       user_name: '',
       media_name: '',
@@ -23,6 +24,8 @@ class App extends React.Component {
     
     this.advancedQuery = this.advancedQuery.bind(this);
     this.createWatchlistEntry = this.createWatchlistEntry.bind(this);
+    this.updateWatchlistEntry = this.updateWatchlistEntry.bind(this);
+    this.deleteWatchlistEntry = this.deleteWatchlistEntry.bind(this);
     this.lookUpShow = this.lookUpShow.bind(this);
   }
 
@@ -50,6 +53,26 @@ class App extends React.Component {
     fetch({query_str}).then(res => res.json()).then(data => {
       this.setState(state => ({
         lookup_result: data.result
+      }));
+    });
+  }
+
+  updateWatchlistEntry() {
+    var query_str = `/update_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}&watched=${this.state.watched}`;
+    
+    fetch({query_str}).then(res => res.json()).then(data => {
+      this.setState(state => ({
+        update_query_result: data.result
+      }));
+    });
+  }
+
+  deleteWatchlistEntry() {
+    var query_str = `/delete_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}`;
+    
+    fetch({query_str}).then(res => res.json()).then(data => {
+      this.setState(state => ({
+        delete_query_result: data.result
       }));
     });
   }
@@ -104,6 +127,11 @@ class App extends React.Component {
 
         <button onClick={this.createWatchlistEntry}>Create Watchlist Entry</button>
         <p> Data from create watchlist entry: {this.state.create_query_result} </p>
+
+        <button onClick={this.updateWatchlistEntry}>Update Watchlist Entry</button>
+        <p> Data from update watchlist entry: {this.state.update_query_result} </p>
+
+        <button onClick={this.deleteWatchlistEntry}>Delete Watchlist Entry</button>
 
         <form>
           <label>
