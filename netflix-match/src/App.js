@@ -8,18 +8,22 @@ class App extends React.Component {
     this.state = {
       avd_query_result: 'Click to reveal',
       create_query_result: 'Click to reveal',
+      lookup_result: 'Click to reveal',
       user_name: '',
       media_name: '',
-      watched: ''
+      watched: '',
+      keyword: ''
     };
 
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangeMedianame = this.handleChangeMedianame.bind(this);
     this.handleChangeWatched = this.handleChangeWatched.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChangeKeyword = this.handleChangeKeyword.bind(this);
     
-    this.createWatchlistEntry = this.createWatchlistEntry.bind(this);
     this.advancedQuery = this.advancedQuery.bind(this);
+    this.createWatchlistEntry = this.createWatchlistEntry.bind(this);
+    this.lookUpShow = this.lookUpShow.bind(this);
   }
 
   advancedQuery() {
@@ -40,6 +44,16 @@ class App extends React.Component {
     });
   }
 
+  lookUpShow() {
+    var query_str = `/look_up_show_name?keywork=${this.state.keyword}`;
+    
+    fetch({query_str}).then(res => res.json()).then(data => {
+      this.setState(state => ({
+        lookup_result: data.result
+      }));
+    });
+  }
+
   handleChangeUsername(event) {
     this.setState({user_name: event.target.value});
   }
@@ -50,6 +64,10 @@ class App extends React.Component {
 
   handleChangeWatched(event) {
     this.setState({watched: event.target.value});
+  }
+
+  handleChangeKeyword(event) {
+    this.setState({keyword: event.target.value});
   }
 
   handleSubmit(event) {
@@ -86,6 +104,15 @@ class App extends React.Component {
 
         <button onClick={this.createWatchlistEntry}>Create Watchlist Entry</button>
         <p> Data from create watchlist entry: {this.state.create_query_result} </p>
+
+        <form>
+          <label>
+              Keyword Search:
+              <input type="text" value={this.state.keyword} onChange={this.handleChangeKeyword} />
+          </label>
+        </form>
+        <button onClick={this.lookUpShow}>Keyword Search</button>
+        <p> Keyword Search Results: {this.state.lookup_result} </p>
 
         </header>
       </div>
