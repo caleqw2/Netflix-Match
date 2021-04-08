@@ -28,6 +28,7 @@ data = pd.read_csv("netflix_titles.csv")
 #     media_id += 1
 
 # mycursor.execute("SELECT COUNT(*) FROM GenreTags")
+
 mycursor.execute("SELECT g.genre_name FROM Media m NATURAL JOIN GenreTags g WHERE m.media_title = \"The Other Guys\"")
 
 myresult = mycursor.fetchall()
