@@ -10,14 +10,14 @@ class App extends React.Component {
       create_query_result: 'Click to reveal',
       update_query_result: 'Click to reveal',
       lookup_result: 'Click to reveal',
-      user_name: '',
-      media_name: '',
+      user_id: '',
+      media_id: '',
       watched: '',
       keyword: ''
     };
 
-    this.handleChangeUsername = this.handleChangeUsername.bind(this);
-    this.handleChangeMedianame = this.handleChangeMedianame.bind(this);
+    this.handleChangeUserID = this.handleChangeUserID.bind(this);
+    this.handleChangeMediaID = this.handleChangeMediaID.bind(this);
     this.handleChangeWatched = this.handleChangeWatched.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeKeyword = this.handleChangeKeyword.bind(this);
@@ -37,10 +37,8 @@ class App extends React.Component {
     });
   }
 
-  createWatchlistEntry() {
-    var query_str = `/create_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}&watched=${this.state.watched}`;
-    
-    fetch({query_str}).then(res => res.json()).then(data => {
+  createWatchlistEntry() {    
+    fetch(`/create_user_watch_list_entry?user_id=${this.state.user_id}&media_id=${this.state.media_id}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         create_query_result: data.result
       }));
@@ -48,9 +46,8 @@ class App extends React.Component {
   }
 
   lookUpShow() {
-    var query_str = `/look_up_show_name?keywork=${this.state.keyword}`;
-    
-    fetch({query_str}).then(res => res.json()).then(data => {
+    console.log(this.state.keyword);
+    fetch(`/look_up_show_name?keyword=${this.state.keyword}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         lookup_result: data.result
       }));
@@ -58,9 +55,7 @@ class App extends React.Component {
   }
 
   updateWatchlistEntry() {
-    var query_str = `/update_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}&watched=${this.state.watched}`;
-    
-    fetch({query_str}).then(res => res.json()).then(data => {
+    fetch(`/update_user_watch_list_entry?user_id=${this.state.user_id}&media_id=${this.state.media_id}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         update_query_result: data.result
       }));
@@ -68,21 +63,19 @@ class App extends React.Component {
   }
 
   deleteWatchlistEntry() {
-    var query_str = `/delete_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}`;
-    
-    fetch({query_str}).then(res => res.json()).then(data => {
+    fetch(`/delete_user_watch_list_entry?user_id=${this.state.user_id}&media_id=${this.state.media_id}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         delete_query_result: data.result
       }));
     });
   }
 
-  handleChangeUsername(event) {
-    this.setState({user_name: event.target.value});
+  handleChangeUserID(event) {
+    this.setState({user_id: event.target.value});
   }
 
-  handleChangeMedianame(event) {
-    this.setState({media_name: event.target.value});
+  handleChangeMediaID(event) {
+    this.setState({media_id: event.target.value});
   }
 
   handleChangeWatched(event) {
@@ -94,7 +87,7 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('Username: ' + this.state.user_name + ' Media name: ' + this.state.media_name + ' Watched: ' + this.state.watched);
+    alert('User ID: ' + this.state.user_id + ' Media ID: ' + this.state.media_id + ' Watched: ' + this.state.watched);
     event.preventDefault();
   }
 
@@ -108,13 +101,13 @@ class App extends React.Component {
 
         <form onSubmit={this.handleSubmit}>
           <label>
-            Username:
-            <input type="text" value={this.state.user_name} onChange={this.handleChangeUsername} />
+            User ID:
+            <input type="text" value={this.state.user_id} onChange={this.handleChangeUserID} />
           </label>
 
           <label>
-            Media Name:
-            <input type="text" value={this.state.media_name} onChange={this.handleChangeMedianame} />
+            Media ID:
+            <input type="text" value={this.state.media_id} onChange={this.handleChangeMediaID} />
           </label>
 
           <label>
@@ -139,6 +132,7 @@ class App extends React.Component {
               <input type="text" value={this.state.keyword} onChange={this.handleChangeKeyword} />
           </label>
         </form>
+
         <button onClick={this.lookUpShow}>Keyword Search</button>
         <p> Keyword Search Results: {this.state.lookup_result} </p>
 
