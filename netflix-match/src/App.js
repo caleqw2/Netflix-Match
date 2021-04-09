@@ -13,7 +13,7 @@ class App extends React.Component {
       updateActorNewName: '',
       deleteActorName: '',
       ageRating: '',
-      results: 'No results yet!'
+      results: 'No results yet!' // no
     };
 
     // No idea how/why this works
@@ -74,7 +74,13 @@ class App extends React.Component {
   handleKeywordSearchSubmit(event) {
     if (this.state.keyword) {
       let results = `Searching for actors with keyword: "${this.state.keyword}"...\n\n`;
-      this.setState({ results: results, keyword: '' })
+
+      const url = `/keyword_search/${this.state.keyword}`
+      fetch(url).then(res => res.json()).then(data => {
+        results += data.result;
+        this.setState({ results: results, keyword: '' });
+      });
+
       event.preventDefault();
     }
   }
@@ -82,15 +88,27 @@ class App extends React.Component {
   handleMovieSearchArgSubmit(event) {
     if (this.state.movieSearchArg) {
       let results = `Searching all movies with: "${this.state.movieSearchArg}"...\n\n`;
-      this.setState({ results: results, movieSearchArg: '' })
+
+      const url = `/movie_search/${this.state.movieSearchArg}`
+      fetch(url).then(res => res.json()).then(data => {
+        results += data.result;
+        this.setState({ results: results, movieSearchArg: '' })
+      });
+
       event.preventDefault();
     }
   }
 
   handleInsertActorSubmit(event) {
     if (this.state.insertActorNameArg && this.state.insertActorMovieArg) {
-      let results = `Inserting new actor "${this.state.insertActorNameArg}" into movie "${this.state.insertActorMovieArg}"...\n\n`;
-      this.setState({ results: results, insertActorMovieArg: '', insertActorNameArg: '' })
+      let results = `Inserting new actor "${this.state.insertActorNameArg}" into movie with ID = "${this.state.insertActorMovieArg}"...\n\n`;
+
+      const url = `/insert_actor/${this.state.insertActorNameArg}/${this.state.insertActorMovieArg}`
+      fetch(url).then(res => res.json()).then(data => {
+        results += data.result;
+        this.setState({ results: results, insertActorMovieArg: '', insertActorNameArg: '' })
+      });
+
       event.preventDefault();
     }
   }
@@ -98,7 +116,13 @@ class App extends React.Component {
   handleUpdateActorSubmit(event) {
     if (this.state.updateActorOldName && this.state.updateActorNewName) {
       let results = `Changing actor "${this.state.updateActorOldName}"'s name to "${this.state.updateActorNewName}"...\n\n`;
-      this.setState({ results: results, updateActorNewName: '', updateActorOldName: '' })
+
+      const url = `/update_actor/${this.state.updateActorOldName}/${this.state.updateActorNewName}`
+      fetch(url).then(res => res.json()).then(data => {
+        results += data.result;
+        this.setState({ results: results, updateActorNewName: '', updateActorOldName: '' })
+      });
+
       event.preventDefault();
     }
   }
@@ -106,15 +130,27 @@ class App extends React.Component {
   handleDeleteActorSubmit(event) {
     if (this.state.deleteActorName) {
       let results = `Deleting actor "${this.state.deleteActorName}" from all movies...\n\n`;
-      this.setState({ results: results, deleteActorName: '' })
+
+      const url = `/delete_actor/${this.state.deleteActorName}`
+      fetch(url).then(res => res.json()).then(data => {
+        results += data.result;
+        this.setState({ results: results, deleteActorName: '' })
+      });
+
       event.preventDefault();
     }
   }
 
   handleAdvancedQuerySubmit(event) {
     if (this.state.ageRating) {
-      let results = `Finding number of ${this.state.ageRating}-rated movies in each genre...`;
-      this.setState({ results: results, ageRating: '' })
+      let results = `Finding number of ${this.state.ageRating}-rated movies in each genre...\n\n`;
+
+      const url = `/advanced_query/${this.state.ageRating}`
+      fetch(url).then(res => res.json()).then(data => {
+        results += data.result;
+        this.setState({ results: results, ageRating: '' })
+      });
+
       event.preventDefault();
     }
   }
@@ -132,12 +168,12 @@ class App extends React.Component {
             <div class="enter-info">
               {/* Searching Functions */}
               <h2>Search</h2>
-              <p>Find actor names by keyword</p>
+              <p>Find actor names by keyword.</p>
               <form onSubmit={this.handleKeywordSearchSubmit}>
-                <input type="text" value={this.state.keyword} placeholder="Keyword (i.e. 'Leo')" onChange={this.handleChangeKeyword} />
+                <input type="text" value={this.state.keyword} placeholder="Keyword (i.e. 'Leonard')" onChange={this.handleChangeKeyword} />
                 <input type="submit" value="Search" />
               </form>
-              <p>Find all movies an actor has starred in</p>
+              <p>Find all movies an actor has starred in.</p>
               <form onSubmit={this.handleMovieSearchArgSubmit}>
                 <label>
                   <input type="text" value={this.state.movieSearchArg} placeholder="i.e. 'Leonardo DiCaprio'" onChange={this.handleChangeMovieSearchArg} />
@@ -174,18 +210,19 @@ class App extends React.Component {
               {/* Advanced Query */}
               <h2>Advanced Query</h2>
               <p>Find the number of movies with a particular age rating per genre.</p>
+              <p>Some choices: G, PG, PG-13, R</p>
               <form onSubmit={this.handleAdvancedQuerySubmit}>
                 <input type="text" value={this.state.ageRating} placeholder="Age rating (i.e. 'PG-13')" onChange={this.handleChangeAgeRating} />
                 <input type="submit" value="Submit" />
               </form>
 
-              <h4>Suggestion: Use these given media_ids when demoing: 123, 43, 22</h4>
+              <h4>Suggestion: Use media_id 10,000 ("Test Movie") to test/demo</h4>
             </div>
 
             {/* Query Results */}
             <div class="results">
               <h2>Results:</h2>
-              <p style={{ color: "red" }}>{this.state.results}</p>
+              <pre style={{ color: "red" }}>{this.state.results}</pre>
             </div>
           </div>
         </header>
