@@ -9,15 +9,16 @@ class App extends React.Component {
       avd_query_result: 'Click to reveal',
       create_query_result: 'Click to reveal',
       update_query_result: 'Click to reveal',
+      delete_query_result: 'Click to reveal',
       lookup_result: 'Click to reveal',
-      user_id: '',
-      media_id: '',
+      user_name: '',
+      media_name: '',
       watched: '',
       keyword: ''
     };
 
-    this.handleChangeUserID = this.handleChangeUserID.bind(this);
-    this.handleChangeMediaID = this.handleChangeMediaID.bind(this);
+    this.handleChangeUsername = this.handleChangeUsername.bind(this);
+    this.handleChangeMediaName = this.handleChangeMediaName.bind(this);
     this.handleChangeWatched = this.handleChangeWatched.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeKeyword = this.handleChangeKeyword.bind(this);
@@ -38,7 +39,7 @@ class App extends React.Component {
   }
 
   createWatchlistEntry() {    
-    fetch(`/create_user_watch_list_entry?user_id=${this.state.user_id}&media_id=${this.state.media_id}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
+    fetch(`/create_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         create_query_result: data.result
       }));
@@ -55,7 +56,7 @@ class App extends React.Component {
   }
 
   updateWatchlistEntry() {
-    fetch(`/update_user_watch_list_entry?user_id=${this.state.user_id}&media_id=${this.state.media_id}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
+    fetch(`/update_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         update_query_result: data.result
       }));
@@ -63,19 +64,19 @@ class App extends React.Component {
   }
 
   deleteWatchlistEntry() {
-    fetch(`/delete_user_watch_list_entry?user_id=${this.state.user_id}&media_id=${this.state.media_id}`).then(res => res.json()).then(data => {
+    fetch(`/delete_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         delete_query_result: data.result
       }));
     });
   }
 
-  handleChangeUserID(event) {
-    this.setState({user_id: event.target.value});
+  handleChangeUsername(event) {
+    this.setState({user_name: event.target.value});
   }
 
-  handleChangeMediaID(event) {
-    this.setState({media_id: event.target.value});
+  handleChangeMediaName(event) {
+    this.setState({media_name: event.target.value});
   }
 
   handleChangeWatched(event) {
@@ -87,7 +88,7 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('User ID: ' + this.state.user_id + ' Media ID: ' + this.state.media_id + ' Watched: ' + this.state.watched);
+    alert('Username: ' + this.state.user_name + ' Media ID: ' + this.state.media_name + ' Watched: ' + this.state.watched);
     event.preventDefault();
   }
 
@@ -101,13 +102,13 @@ class App extends React.Component {
 
         <form onSubmit={this.handleSubmit}>
           <label>
-            User ID:
-            <input type="text" value={this.state.user_id} onChange={this.handleChangeUserID} />
+            Username:
+            <input type="text" value={this.state.user_name} onChange={this.handleChangeUsername} />
           </label>
 
           <label>
-            Media ID:
-            <input type="text" value={this.state.media_id} onChange={this.handleChangeMediaID} />
+            Media Name:
+            <input type="text" value={this.state.media_name} onChange={this.handleChangeMediaName} />
           </label>
 
           <label>
@@ -125,6 +126,7 @@ class App extends React.Component {
         <p> Data from update watchlist entry: {this.state.update_query_result} </p>
 
         <button onClick={this.deleteWatchlistEntry}>Delete Watchlist Entry</button>
+        <p> Data from delete watchlist entry: {this.state.delete_query_result} </p>
 
         <form>
           <label>
