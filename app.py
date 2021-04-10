@@ -32,7 +32,11 @@ def show_beth_adv_query_result():
   mydb.commit()
   mydb.close()
   
-  return {'result': myresult}
+  result_str = ""
+  for row in myresult:
+    result_str += row[0] + " has been in " + str(row[1]) + "; "
+  
+  return {'result': result_str}
 
 # /create_user_watch_list_entry?user_id=0&media_id=0&watched=true
 @app.route('/create_user_watch_list_entry')
@@ -91,8 +95,12 @@ def look_up_show_name():
 
   mydb.commit()
   mydb.close()
+
+  result_str = ""
+  for row in myresult:
+    result_str += row[0] + "; "
   
-  return {'result': myresult}
+  return {'result': result_str}
 
 # /update_user_watch_list_entry?user_name=0&media_name=0&watched=true
 @app.route('/update_user_watch_list_entry')

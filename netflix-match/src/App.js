@@ -98,7 +98,8 @@ class App extends React.Component {
         <header className="App-header">
         
         <button onClick={this.advancedQuery}>Do Advanced Query</button>
-        <p> Data from advanced query: {this.state.avd_query_result} </p>
+        <h3>Data from advanced query: </h3>
+        <p>{this.state.avd_query_result} </p>
 
         <form onSubmit={this.handleSubmit}>
           <label>
@@ -120,13 +121,16 @@ class App extends React.Component {
         </form>
 
         <button onClick={this.createWatchlistEntry}>Create Watchlist Entry</button>
-        <p> Data from create watchlist entry: {this.state.create_query_result} </p>
+        <h3> Data from create watchlist entry: </h3>
+        <p>{this.state.create_query_result} </p>
 
         <button onClick={this.updateWatchlistEntry}>Update Watchlist Entry</button>
-        <p> Data from update watchlist entry: {this.state.update_query_result} </p>
+        <h3>Data from update watchlist entry:</h3> 
+        <p>{this.state.update_query_result} </p>
 
         <button onClick={this.deleteWatchlistEntry}>Delete Watchlist Entry</button>
-        <p> Data from delete watchlist entry: {this.state.delete_query_result} </p>
+        <h3>Data from delete watchlist entry:</h3> 
+        <p>{this.state.delete_query_result} </p>
 
         <form>
           <label>
@@ -136,7 +140,8 @@ class App extends React.Component {
         </form>
 
         <button onClick={this.lookUpShow}>Keyword Search</button>
-        <p> Keyword Search Results: {this.state.lookup_result} </p>
+        <h3> Keyword Search Results: </h3>
+        <p>{this.state.lookup_result}</p>
 
         </header>
       </div>
