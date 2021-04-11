@@ -2,6 +2,8 @@ import mysql.connector as msc
 from flask import Flask
 from flask_cors import CORS
 
+#test
+
 app = Flask(__name__)
 CORS(app)
 
