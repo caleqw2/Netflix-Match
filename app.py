@@ -55,7 +55,7 @@ def alice_query():
   mydb.commit()
   mydb.close()
 
-  if result == '':
+  if myresult == '':
     result = "There are no actors that fit that criteria"
   return {'result': result}
 
