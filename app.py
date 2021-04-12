@@ -7,8 +7,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/show_beth_adv_query_result')
-def show_beth_adv_query_result():
+
+def execute_query(query):
   mydb = msc.connect(
     host="104.197.38.184", # This is the IP of the GCP instance
     user="root",
@@ -16,20 +16,66 @@ def show_beth_adv_query_result():
     database="netflix_match"
   )
 
+  if not mydb.is_connected():
+    return "MySQL instance is not connected!"
+
   mycursor = mydb.cursor()
-
-  mycursor.execute("""SELECT a.actor_name, COUNT(DISTINCT m.media_id) as media_count
-  FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m
-  WHERE m.director = "Martin Scorsese"
-  GROUP BY actor_id
-  ORDER BY media_count DESC""")
-
+  mycursor.execute(query)
   myresult = mycursor.fetchall()
-
-  for x in myresult:
-    print(x)
-
   mydb.commit()
   mydb.close()
+
+  return myresult
+
+
+  #my advanced query
+  @app.route('/alicequery/<genre>/<country>')
+  def alicequery(genre, country):
+    query = f"""
+    SELECT a.actor_name, COUNT(DISTINCT m.media_id)
+    FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m NATURAL JOIN GenreTags g
+    WHERE g.genre_name = "Romantic Movies"
+    GROUP BY actor_id
+    UNION
+    SELECT a.actor_name, COUNT(DISTINCT m.media_id)
+    FROM Actors a NATURAL JOIN Roles r NATURAL JOIN Media m
+    WHERE m.country = "Australia" 
+    GROUP BY actor_id
+    ORDER BY actor_name
+    """
+    query_result = execute_query(query)
+
+    if result == '':
+      result = "There are no actors that fit that criteria"
+    return {'result': result}
+
+  #create new media entry
+  @app.route('/new_media_entry/<media_type>/<media_title>/<director>/<country>/<date_added>/<release_year>/<age_rating>/<duration>/<description>')
+  def new_media_entry(media_type, media_title, director, country, date_added, release_year, age_rating, duration, description):
+    #check to see if media_id with this id exists already
+    current_media = execute_query("SELECT * FROM Media WHERE media_title = {media_title}")
+    if not current_media:
+      new_id = execute_query("SELECT COUNT(*) FROM Media ORDER BY media_id DESC")[0][0] + 1
+      execute_query("INSERT INTO Media (media_id, media_type, media_title, director, country, date_added, release_year, age_rating, duration, description) VALUES ({}, {}}, {}, {}, {}, {}, {}, {}, {}, {})").format(new_id, media_type, media_title, director, country, date_added, release_year, age_rating, duration, description)
+      result = f'Inserted "{media_title}"" into Media table along with other attributes.'
+
+    else:
+      result = f'Media "{media_title}"" already exists in Media table.'
+    return {'result': result}
+
+  #update media entry
+  @app.route('/update_media/<media_title>/<new_title>')
+  def update_media(media_title, new_title):
+    #see if media_title exists
+    current_media = execute_query("SELECT * FROM Media WHERE media_title = {media_title}")
+    if not current_media:
+      return {'result': "Media title doesn't exist"}
+
+    else:
+      execute_query("UPDATE Media SET media_title = {} WHERE media_title = {}").format(media_title, new_title)
+      return {'result': "Media title changed from "{media_title}" to "{new_title}"}
+
+#lookup media entry
+@app.route('/lookup_media/<media_title>')
+def lookup_media(media_title):
   
-  return {'result': myresult}
