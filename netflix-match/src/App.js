@@ -19,7 +19,7 @@ class App extends React.Component {
 
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
     this.handleChangeMediaName = this.handleChangeMediaName.bind(this);
-    this.handleChangeWatched = this.handleChangeWatched.bind(this);
+    //this.handleChangeWatched = this.handleChangeWatched.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeKeyword = this.handleChangeKeyword.bind(this);
     
@@ -39,7 +39,7 @@ class App extends React.Component {
   }
 
   createWatchlistEntry() {    
-    fetch(`/create_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
+    fetch(`/create_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         create_query_result: data.result
       }));
@@ -88,7 +88,7 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('Username: ' + this.state.user_name + ' Media ID: ' + this.state.media_name + ' Watched: ' + this.state.watched);
+    alert('Username: ' + this.state.user_name + ' Media ID: ' + this.state.media_name );
     event.preventDefault();
   }
 
@@ -112,10 +112,10 @@ class App extends React.Component {
             <input type="text" value={this.state.media_name} onChange={this.handleChangeMediaName} />
           </label>
 
-          <label>
+          {/* <label>
             Watched (true or false):
             <input type="text" value={this.state.watched} onChange={this.handleChangeWatched} />
-          </label>
+          </label> */}
 
           <input type="submit" value="Submit" />
         </form>
