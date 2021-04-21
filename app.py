@@ -75,7 +75,7 @@ def create_user_watch_list_entry():
   # if (myresult[0][2]):
   #   watched_str = "true"
 
-  result_str = "Username=" + str(myresult[0][0]) + " Media Title=" + myresult[0][1] 
+  result_str = "Question ID: " + str(myresult[0][0]) + " Description: " + myresult[0][1] 
   return {'result': result_str}
 
 
@@ -139,7 +139,7 @@ def update_user_watch_list_entry():
   mydb.commit()
   mydb.close()
 
-  result_str = "Username=" + user_id + " Media Title=" + media_id
+  result_str = "Question ID: " + user_id + ", Description: " + media_id
   
   return {'result': result_str}
 
@@ -173,7 +173,7 @@ def delete_user_watch_list_entry():
 
   user_name = request.args.get('user_name')
   media_name = request.args.get('media_name').replace("%20", " ")
-  return {'result': "Deleted {} from {}'s watchlist".format(media_name, user_name)}
+  return {'result': "Deleted {} (with description) {}) from the Quiz Questions".format(media_name, user_name)}
 
 # def get_media_id(media_name):
 #   mydb = msc.connect(

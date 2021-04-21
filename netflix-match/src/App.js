@@ -88,7 +88,7 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('Username: ' + this.state.user_name + ' Media ID: ' + this.state.media_name );
+    alert('Question ID: ' + this.state.user_name + ' Description: ' + this.state.media_name );
     event.preventDefault();
   }
 
@@ -103,12 +103,12 @@ class App extends React.Component {
 
         <form onSubmit={this.handleSubmit}>
           <label>
-            Username:
+            Question ID:
             <input type="text" value={this.state.user_name} onChange={this.handleChangeUsername} />
           </label>
 
           <label>
-            Media Name:
+            Description:
             <input type="text" value={this.state.media_name} onChange={this.handleChangeMediaName} />
           </label>
 
@@ -120,16 +120,16 @@ class App extends React.Component {
           <input type="submit" value="Submit" />
         </form>
 
-        <button onClick={this.createWatchlistEntry}>Create Watchlist Entry</button>
-        <h3> Data from create watchlist entry: </h3>
+        <button onClick={this.createWatchlistEntry}>Create QuizQuestion Entry</button>
+        <h3> Data from create QuizQuestion entry: </h3>
         <p>{this.state.create_query_result} </p>
 
-        <button onClick={this.updateWatchlistEntry}>Update Watchlist Entry</button>
-        <h3>Data from update watchlist entry:</h3> 
+        <button onClick={this.updateWatchlistEntry}>Update QuizQuestion Entry</button>
+        <h3>Data from update QuizQuestion entry:</h3> 
         <p>{this.state.update_query_result} </p>
 
-        <button onClick={this.deleteWatchlistEntry}>Delete Watchlist Entry</button>
-        <h3>Data from delete watchlist entry:</h3> 
+        <button onClick={this.deleteWatchlistEntry}>Delete QuizQuestion Entry</button>
+        <h3>Data from delete QuizQuestion entry:</h3> 
         <p>{this.state.delete_query_result} </p>
 
         <form>
