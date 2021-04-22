@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { Helmet } from 'react-helmet'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { NavigationBar } from './components/NavigationBar';
 
 function App() {
   const [placeholder, setPlaceholder] = useState('Hi');
@@ -11,13 +15,29 @@ function App() {
     });
   }, []);
 
+  const TITLE = 'My Page Title'
+
+class MyComponent extends React.PureComponent {
+  render () {
+    return (
+      <>
+        <Helmet>
+          <title>{ TITLE }</title>
+        </Helmet>
+      </>
+    )
+  }
+}
   return (
+
+    
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
+        { <p>
+          Netflix Match
         </p>
+        /*
+        
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -25,7 +45,7 @@ function App() {
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
+        </a> */}
         <p>Flask says {placeholder}</p>
       </header>
     </div>
