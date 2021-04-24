@@ -42,8 +42,8 @@ class NavigationBar extends Component {
           <h1 className="title_text">Netflix Match!</h1>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-              <Nav.Item><Nav.Link href="/">Watchlist</Nav.Link></Nav.Item> 
-              <Nav.Item><Nav.Link href="/about">Account</Nav.Link></Nav.Item>
+              <Nav.Item><Nav.Link href="/watchlist">Watchlist</Nav.Link></Nav.Item> 
+              <Nav.Item><Nav.Link href="/account">Account</Nav.Link></Nav.Item>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
