@@ -1,0 +1,75 @@
+//QUESTION 1 now
+INSERT INTO QuizAnswerChoice
+VALUES (1, 1, 'Comedy', null, '%Comed%')
+
+INSERT INTO QuizAnswerChoice
+VALUES (2, 1, 'Romance', null, '%Roman%')
+
+INSERT INTO QuizAnswerChoice
+VALUES (3, 1, 'Action', null, '%Action%')
+
+//QUESTION 2
+INSERT INTO QuizAnswerChoice
+VALUES (4, 2, 'TV Show', null, 'TV Show')
+
+INSERT INTO QuizAnswerChoice
+VALUES (5, 2, 'Movie', null, 'Movie')
+
+//value 6 would be either
+
+//QUESTION 3
+//treat as greater than
+INSERT INTO QuizAnswerChoice
+VALUES (7, 3, 'Recent', null, '2010')
+
+//treat as less than
+INSERT INTO QuizAnswerChoice
+VALUES (8, 3, 'Old', null, '2010')
+
+//value 9 would be either
+
+//QUESTION 4
+INSERT INTO QuizAnswerChoice
+VALUES (10, 4, '17+', null, '[NR, nan, NC-17, NR, R, TV-MA, UR]')
+
+INSERT INTO QuizAnswerChoice
+VALUES (11, 4, '13-16', null, '[PG-13, TV-14]')
+
+INSERT INTO QuizAnswerChoice
+VALUES (12, 4, '<13', null, '[G, PG, TV-G, TV-PG,TV-Y, TV-Y7, TV-Y7-FV]')
+
+//QUESTION 5
+INSERT INTO QuizAnswerChoice
+VALUES (13, 5, 'Kal Ho Naa Ho', null, '%India%')
+
+INSERT INTO QuizAnswerChoice
+VALUES (14, 5, 'Miss Americana', null, '%United States%')
+
+INSERT INTO QuizAnswerChoice
+VALUES (15, 5, 'Marriage Story', null, '%United Kingdom%')
+
+//QUESTION 6
+INSERT INTO QuizAnswerChoice
+VALUES (16, 6, 'American Horror Story', null, '%Horror%')
+
+INSERT INTO QuizAnswerChoice
+VALUES (17, 6, 'Stranger Things', null, '%Sci-Fi%')
+
+INSERT INTO QuizAnswerChoice
+VALUES (18, 6, 'Breaking Bad', null, '%Drama%')
+
+//BEGIN INSERTS FROM HERE
+//QUESTION 7
+INSERT INTO QuizAnswerChoice
+VALUES (19, 7, 'Priyanka Chopra', null, '% girl %')
+
+INSERT INTO QuizAnswerChoice
+VALUES (20, 7, 'Meryl Streep', null, '% woman %')
+
+INSERT INTO QuizAnswerChoice
+VALUES (21, 7, 'Adam Sandler', null, '% man %')
+
+//NUANCES
+//Q2 just don't check for media_type
+//Q3 need to use number choice to check if greater than or less than
+//Q4 check if IN

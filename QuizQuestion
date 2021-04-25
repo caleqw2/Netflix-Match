@@ -1,0 +1,28 @@
+//QUESTION 1 now
+INSERT INTO QuizQuestion
+VALUES (1, 'What movie genre do you like the most?', 'genre_name')
+
+//QUESTION 2 now
+INSERT INTO QuizQuestion
+VALUES (2, 'Do you prefer tv shows or movies?', 'media_type')
+
+//QUESTION 3
+INSERT INTO QuizQuestion
+VALUES (3, 'Do you want to watch something recently released or an older movie?', 'release_year')
+
+//QUESTION 4
+INSERT INTO QuizQuestion
+VALUES (4, 'How old are you?', 'age_rating')
+
+//QUESTION 5
+INSERT INTO QuizQuestion
+VALUES (5, 'Out of these 3 movies, pick your favorite:', 'country')
+
+//QUESTION 6
+INSERT INTO QuizQuestion
+VALUES (6, 'Out of these 3 tv shows, pick your favorite:', 'genre_name')
+
+//BEGIN INSERTS FROM HERE
+//QUESTION 7
+INSERT INTO QuizQuestion
+VALUES (7, 'Out of these 3 actors, pick your favorite:', 'description')
