@@ -24,7 +24,7 @@ class QuizCard extends Component {
     </div>
 </div>
     );
-}}
+}} 
 
 class Quiz extends Component {
     render() {
