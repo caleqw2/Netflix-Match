@@ -8,6 +8,11 @@ import Question1 from './components/Question1.js';
 import Home from './components/Home.js';
 import { Nav, Navbar, Form, FormControl } from 'react-bootstrap';
 import styled from 'styled-components';
+import Watchlist from './components/Watchlist.js';
+import Quiz from './components/Quiz.js';
+import Account from './components/Account.js';
+import About from './components/About.js';
+
 
 class App extends Component {
   render() {
@@ -19,13 +24,12 @@ class App extends Component {
           <NavigationBar/>
 
           <Switch>
+            <Route path="/About" component={About} />
+            <Route path="/Account" component={Account} />
+            <Route path="/Quiz" component={Quiz} />
+            <Route path="/Watchlist" component={Watchlist} />
             <Route path="/" component={Home} />
-            <Route path="/q1" component={Question1} />
           </Switch>
-
-          {/* <div style={{height: "100vh", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <Link to="/q1" className="btn btn-primary">Start Quiz</Link>
-          </div> */}
 
           
         </div>

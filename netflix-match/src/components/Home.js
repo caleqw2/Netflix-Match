@@ -11,16 +11,16 @@ class Home extends Component {
     const TITLE = 'My Page Title';
 
     return (
-      <Router>
+      
         <div>
 
           <div style={{height: "100vh", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
-            <Link to="/q1" className="btn btn-primary">Start Quiz</Link>
+            <Link to="/Quiz" className="btn btn-primary">Start Quiz</Link>
           </div>
 
           
         </div>
-      </Router>
+       
     );
   }
 }
