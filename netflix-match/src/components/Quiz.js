@@ -12,6 +12,7 @@ class QuizCard extends Component {
       
 <div className='info-block'> 
     <div className='info-header'>
+        
     </div>
     
     <div className='post1text'>
