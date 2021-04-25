@@ -1,0 +1,171 @@
+DELIMITER //
+CREATE Procedure QuizResults (
+	IN q1_answer INT,
+	IN q2_answer INT,
+	IN q3_answer INT,
+	IN q4_answer INT,
+	IN q5_answer INT,
+	IN q6_answer INT,
+	IN q7_answer INT
+)
+
+BEGIN
+
+DECLARE genre1 VARCHAR(50);
+DECLARE genre2 VARCHAR(50);
+DECLARE media_type1 VARCHAR(50);
+DECLARE description1 VARCHAR(100);
+DECLARE country1 VARCHAR(50);
+DECLARE tmp_id INT;
+DECLARE finished INT DEFAULT 0;
+DECLARE country_cursor CURSOR FOR
+	SELECT media_id
+	FROM Media
+	WHERE country LIKE country1;
+DECLARE CONTINUE HANDLER FOR NOT FOUND SET finished = 1;
+
+CREATE TABLE country_match (media_id INT);
+
+SELECT result_meaning 
+INTO country1
+FROM QuizAnswerChoice
+WHERE answer_choice_id = q5_answer AND question_id = 5;
+
+OPEN country_cursor;
+REPEAT
+	FETCH country_cursor INTO tmp_id;
+	INSERT INTO country_match VALUES (tmp_id);
+	UNTIL finished
+END REPEAT;
+CLOSE country_cursor;
+
+SELECT result_meaning 
+INTO genre1
+FROM QuizAnswerChoice
+WHERE answer_choice_id = q1_answer AND question_id = 1;
+
+SELECT result_meaning 
+INTO genre2
+FROM QuizAnswerChoice
+WHERE answer_choice_id = q6_answer AND question_id = 6;
+
+CREATE TEMPORARY TABLE afterGenre (
+SELECT *
+FROM Media NATURAL JOIN GenreTags
+WHERE genre_name = genre1
+UNION
+SELECT *
+FROM Media NATURAL JOIN GenreTags
+WHERE genre_name = genre2
+);
+
+IF (q2_answer < 6) THEN
+BEGIN
+	SELECT result_meaning 
+	INTO media_type1
+	FROM QuizAnswerChoice
+	WHERE answer_choice_id = q2_answer AND question_id = 2;
+
+	CREATE TEMPORARY TABLE afterType (
+	SELECT * 
+	FROM Media NATURAL JOIN GenreTags
+	WHERE media_type = media_type1);
+END;
+ELSE
+BEGIN
+	CREATE TEMPORARY TABLE afterType
+	(SELECT *
+	FROM Media NATURAL JOIN GenreTags);
+END;
+END IF;
+
+IF (q3_answer < 8) THEN
+BEGIN
+	CREATE TEMPORARY TABLE afterTypeYear
+	(SELECT *
+	FROM afterType
+	WHERE release_year >= 2010
+	);
+END;
+ELSE
+BEGIN
+	CREATE TEMPORARY TABLE afterTypeYear
+	(SELECT *
+	FROM afterType
+	WHERE release_year < 2010
+	);
+END;
+END IF;
+
+SELECT result_meaning 
+INTO description1
+FROM QuizAnswerChoice
+WHERE answer_choice_id = q7_answer AND question_id = 7;
+
+IF (q4_answer = 10) THEN
+BEGIN
+	CREATE TEMPORARY TABLE afterAgeDescription 
+	(SELECT *
+	FROM Media NATURAL JOIN GenreTags
+	WHERE age_rating IN ('NR', 'nan', 'NC-17', 'NR', 'R', 'TV-MA', 'UR') 
+	UNION
+	SELECT *
+	FROM Media NATURAL JOIN GenreTags
+	WHERE description LIKE description1
+	);
+END;
+ELSEIF (q4_answer = 11) THEN
+BEGIN
+	CREATE TEMPORARY TABLE afterAgeDescription
+	(SELECT *
+	FROM Media NATURAL JOIN GenreTags
+	WHERE age_rating IN ('PG-13', 'TV-14')
+	UNION
+	SELECT *
+	FROM Media NATURAL JOIN GenreTags
+	WHERE description LIKE description1
+	);
+END;
+ELSE
+BEGIN
+	CREATE TEMPORARY TABLE afterAgeDescription
+	(SELECT *
+	FROM Media NATURAL JOIN GenreTags
+	WHERE age_rating IN ('G', 'PG', 'TV-G', 'TV-PG', 'TV-Y', 'TV-Y7', 'TV-Y7-FV')
+	UNION
+	SELECT *
+	FROM Media NATURAL JOIN GenreTags
+	WHERE description LIKE description1
+	);
+END;
+END IF;
+
+CREATE TEMPORARY TABLE preFinal (
+SELECT *
+FROM Media NATURAL JOIN GenreTags
+WHERE media_id IN (SELECT media_id FROM afterTypeYear)
+UNION
+SELECT *
+FROM Media NATURAL JOIN GenreTags
+WHERE media_id IN (SELECT media_id FROM afterGenre)
+UNION
+SELECT *
+FROM Media NATURAL JOIN GenreTags
+WHERE media_id IN (SELECT media_id FROM afterAgeDescription)
+);
+
+DROP TABLE country_match;
+
+SELECT DISTINCT media_id, media_title, director
+FROM preFinal
+ORDER BY director
+LIMIT 100;
+
+DROP TABLE afterGenre;
+DROP TABLE afterType;
+DROP TABLE afterTypeYear;
+DROP TABLE afterAgeDescription;
+DROP TABLE preFinal;
+
+END //
+DELIMITER ;
