@@ -36,3 +36,37 @@
     transform: rotate(360deg);
   }
 }
+
+.feed {
+  text-align: center;
+  background-color: #f9f9f9;
+  height: 100vh;
+  padding: 30vw;
+  padding-top: 30px;
+  /* justify-content: space-around; */
+}
+
+#new-post {
+  margin: auto;
+  margin-top: 15px;
+}
+
+#new-post:hover {
+  cursor: pointer;
+}
+
+.info-block {
+  display: inline-block;
+  background-color: white;
+  padding: 10px;
+  width: 300px;
+  margin: 10px;
+  border: 1px solid #e0e0e0;
+  text-align: center;
+}
+
+.info-header {
+  color:#adadad;
+  font-size: 14px;
+  margin-bottom: 5px;
+}

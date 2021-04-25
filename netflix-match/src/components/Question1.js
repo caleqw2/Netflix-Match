@@ -2,16 +2,16 @@ import React, { useState, useEffect, Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 
-class About extends Component {
+class Question1 extends Component {
 
 
   render() {
     const TITLE = 'My Page Title';
 
     return (
-      <p>About</p>
+      <p>Test</p>
     );
   }
 }
 
-export default About;
+export default Question1;

@@ -1,55 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect, Component } from 'react';
 import './App.css';
 import { Helmet } from 'react-helmet'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { NavigationBar } from './components/NavigationBar';
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import NavigationBar from './components/NavigationBar.js';
+import Question1 from './components/Question1.js';
+import Home from './components/Home.js';
+import { Nav, Navbar, Form, FormControl } from 'react-bootstrap';
+import styled from 'styled-components';
+import Watchlist from './components/Watchlist.js';
+import Quiz from './components/Quiz.js';
+import Account from './components/Account.js';
+import About from './components/About.js';
 
-function App() {
-  const [placeholder, setPlaceholder] = useState('Hi');
 
-  useEffect(() => {
-    fetch('/show_beth_adv_query_result').then(res => res.json()).then(data => {
-      setPlaceholder(data.result);
-    });
-  }, []);
+class App extends Component {
+  render() {
+    const TITLE = 'My Page Title';
 
-  const TITLE = 'My Page Title'
-
-class MyComponent extends React.PureComponent {
-  render () {
     return (
-      <>
-        <Helmet>
-          <title>{ TITLE }</title>
-        </Helmet>
-      </>
-    )
-  }
-}
-  return (
+      <Router>
+        <div>
+          <NavigationBar/>
 
-    
-    <div className="App">
-      <header className="App-header">
-        { <p>
-          Netflix Match
-        </p>
-        /*
-        
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-        <p>Flask says {placeholder}</p>
-      </header>
-    </div>
-  );
+          <Switch>
+            <Route path="/About" component={About} />
+            <Route path="/Account" component={Account} />
+            <Route path="/Quiz" component={Quiz} />
+            <Route path="/Watchlist" component={Watchlist} />
+            <Route path="/" component={Home} />
+          </Switch>
+
+          
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
