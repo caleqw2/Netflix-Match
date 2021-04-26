@@ -12,7 +12,7 @@ import Watchlist from './components/Watchlist.js';
 import Quiz from './components/Quiz.js';
 import Account from './components/Account.js';
 import About from './components/About.js';
-
+import Results from './components/Results.js';
 
 class App extends Component {
   render() {
@@ -28,6 +28,7 @@ class App extends Component {
             <Route path="/Account" component={Account} />
             <Route path="/Quiz" component={Quiz} />
             <Route path="/Watchlist" component={Watchlist} />
+            <Route path="/Results" component={Results} />
             <Route path="/" component={Home} />
           </Switch>
 

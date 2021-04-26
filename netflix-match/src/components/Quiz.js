@@ -31,14 +31,20 @@ class Quiz extends Component {
             choiceThreeText: '',
             choiceOneID: -1,
             choiceTwoID: -1,
-            choiceThreeID: -1
+            choiceThreeID: -1,
+            quizChoices: "",
+            resultsString: ""
         }
 
         this.handleFetchQuestionChoiceInfo = this.handleFetchQuestionChoiceInfo.bind(this);
+        this.optionOneClicked = this.optionOneClicked.bind(this);
+        this.optionTwoClicked = this.optionTwoClicked.bind(this);
+        this.optionThreeClicked = this.optionThreeClicked.bind(this);
+        this.getResults = this.getResults.bind(this);
     }
 
     // Grab the question title and text from three answer choices
-    async handleFetchQuestionChoiceInfo(event) {
+    handleFetchQuestionChoiceInfo(event) {
         const url = `/get_question_info/${this.state.currentQuestion}`
         fetch(url).then(res => res.json()).then(data => {
             this.setState({
@@ -53,22 +59,97 @@ class Quiz extends Component {
         });
     }
 
-    async componentDidMount() {
+    optionOneClicked() {
+        console.log("one");
+
+        let choicesArray = this.state.quizChoices;
+        choicesArray = choicesArray.concat(this.state.choiceOneID.toString());
+        this.setState({quizChoices: choicesArray});
+
+        let questionNum = this.state.currentQuestion;
+        this.setState({currentQuestion: questionNum + 1});
+
+        this.handleFetchQuestionChoiceInfo(this.state.currentQuestion);
+    }
+
+    optionTwoClicked() {
+        console.log("two");
+
+        let choicesArray = this.state.quizChoices;
+        choicesArray = choicesArray.concat(this.state.choiceTwoID.toString());
+        this.setState({quizChoices: choicesArray});
+
+        let questionNum = this.state.currentQuestion;
+        this.setState({currentQuestion: questionNum + 1});
+
+        this.handleFetchQuestionChoiceInfo(this.state.currentQuestion);
+    }
+
+    optionThreeClicked() {
+        console.log("three");
+
+        let choicesArray = this.state.quizChoices;
+        choicesArray = choicesArray.concat(this.state.choiceThreeID.toString());
+        this.setState({quizChoices: choicesArray});
+
+        let questionNum = this.state.currentQuestion;
+        this.setState({currentQuestion: questionNum + 1});
+
+        this.handleFetchQuestionChoiceInfo(this.state.currentQuestion);
+    }
+
+    getResults() {
+        const url = `/get_results/${this.state.quizChoices}`
+        fetch(url).then(res => res.json()).then(data => {
+            this.setState({
+                resultsString: data.result
+            });
+        });
+    }
+
+    componentDidMount() {
         // Call some function to populate currentQuestion
         this.handleFetchQuestionChoiceInfo(this.state.currentQuestion);
     }
 
     render() {
-        console.log(this.state.choiceOneText);
-        return (
-            <div>
-                <h1>Question {this.state.currentQuestion}</h1>
-                <h2>{this.state.questionText}</h2>
-                <QuizCard optionText={this.state.choiceOneText}/>
-                <QuizCard optionText={this.state.choiceTwoText}/>
-                <QuizCard optionText={this.state.choiceThreeText}/>
-            </div>
-        );
+        if (this.state.currentQuestion > 7) {
+            return (
+
+                <div>
+                    <button onClick={this.getResults}>Submit</button>
+                    
+                    <h1>Results here:</h1>
+
+                    <p>{this.state.resultsString}</p>
+
+                </div>
+
+                // <div style={{height: "100vh", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+                //     <Link to="/Results" className="btn btn-primary">Submit</Link>
+                // </div>
+            );
+        } else {
+            return (
+                <div>
+                    <h1>Question {this.state.currentQuestion}</h1>
+                    <h2>{this.state.questionText}</h2>
+                    
+                    <div onClick={this.optionOneClicked}>
+                        <QuizCard optionText={this.state.choiceOneText}/>
+                    </div>
+    
+                    <div onClick={this.optionTwoClicked}>
+                        <QuizCard optionText={this.state.choiceTwoText}/>
+                    </div>
+    
+                    <div onClick={this.optionThreeClicked}>
+                        <QuizCard optionText={this.state.choiceThreeText}/>
+                    </div>
+                </div>
+            );
+
+        }
     };
 }
 

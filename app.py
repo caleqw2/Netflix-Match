@@ -260,10 +260,20 @@ def get_question_info(questionNumber):
     print("running query")
     return results
 
-    # return {
-    #   'questionText': 'Favorite Meal!',
-    #   'choiceOneText': 'Breakfast',
-    #   'choiceTwoText': 'Lunch',
-    #   'choiceThreeText': 'Dinner'
-    # }
+@app.route('/get_results/<results_array>')
+def get_results(results_array):
+    mydb = msc.connect(
+        host="104.197.38.184",  # This is the IP of the GCP instance
+        user="root",
+        password="12345",
+        database="netflix_match"
+    )
+    mycursor = mydb.cursor()
 
+    mycursor.execute(f"CALL QuizResults ({results_array[0]}, {results_array[1]}, {results_array[2]}, {results_array[3]}, {results_array[4]}, {results_array[5]}, {results_array[6]})")
+    # TODO: figure out how to randomize this
+    mycursor.execute(f"SELECT media_title FROM finalResults LIMIT 10")
+    
+    media_results = mycursor.fetchall()
+
+    return {'result': media_results}
