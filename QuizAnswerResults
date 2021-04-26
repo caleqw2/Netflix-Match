@@ -15,6 +15,8 @@ VALUES (4, 2, 'TV Show', null, 'TV Show')
 INSERT INTO QuizAnswerChoice
 VALUES (5, 2, 'Movie', null, 'Movie')
 
+INSERT INTO QuizAnswerChoice
+VALUES (6, 2, 'Both', null, 'Both')
 //value 6 would be either
 
 //QUESTION 3
@@ -26,6 +28,8 @@ VALUES (7, 3, 'Recent', null, '2010')
 INSERT INTO QuizAnswerChoice
 VALUES (8, 3, 'Old', null, '2010')
 
+INSERT INTO QuizAnswerChoice
+VALUES (9, 3, 'Both', null, 'Both')
 //value 9 would be either
 
 //QUESTION 4

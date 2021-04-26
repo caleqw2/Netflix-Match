@@ -156,10 +156,12 @@ WHERE media_id IN (SELECT media_id FROM afterAgeDescription)
 
 DROP TABLE country_match;
 
+DROP TABLE IF EXISTS finalResults;
+CREATE TEMPORARY TABLE finalResults (
 SELECT DISTINCT media_id, media_title, director
 FROM preFinal
 ORDER BY director
-LIMIT 100;
+LIMIT 100);
 
 DROP TABLE afterGenre;
 DROP TABLE afterType;
