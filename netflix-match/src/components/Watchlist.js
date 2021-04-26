@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 import { Form, FormControl } from 'react-bootstrap';
 import styled from 'styled-components';
+import NavigationBar from './NavigationBar.js';
 
 class Watchlist extends React.Component {
   constructor(props) {
@@ -16,7 +17,8 @@ class Watchlist extends React.Component {
       user_name: '',
       media_name: '',
       watched: '',
-      keyword: ''
+      keyword: '',
+      watchlist: ''
     };
 
     this.handleChangeUsername = this.handleChangeUsername.bind(this);
@@ -24,6 +26,7 @@ class Watchlist extends React.Component {
     this.handleChangeWatched = this.handleChangeWatched.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChangeKeyword = this.handleChangeKeyword.bind(this);
+    this.getWatchlist = this.getWatchlist.bind(this);
     
     this.createWatchlistEntry = this.createWatchlistEntry.bind(this);
     this.updateWatchlistEntry = this.updateWatchlistEntry.bind(this);
@@ -32,11 +35,14 @@ class Watchlist extends React.Component {
   }
 
   createWatchlistEntry() {    
-    fetch(`/create_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
+    fetch(`/create_user_watch_list_entry?user_name=${this.props.username}&media_name=${this.state.media_name}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         create_query_result: data.result
       }));
+      this.getWatchlist();
     });
+
+    
   }
 
   lookUpShow() {
@@ -49,10 +55,12 @@ class Watchlist extends React.Component {
   }
 
   updateWatchlistEntry() {
-    fetch(`/update_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
+    fetch(`/update_user_watch_list_entry?user_name=${this.props.username}&media_name=${this.state.media_name}&watched=${this.state.watched}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         update_query_result: data.result
       }));
+
+      this.getWatchlist();
     });
   }
 
@@ -64,11 +72,20 @@ class Watchlist extends React.Component {
     });
   }
 
+  getWatchlist() {
+    fetch(`/get_watchlist/${this.props.userID}`).then(res => res.json()).then(data => {
+      this.setState(state => ({
+        watchlist: data.result
+      }));
+    });
+  }
+
   deleteWatchlistEntry() {
-    fetch(`/delete_user_watch_list_entry?user_name=${this.state.user_name}&media_name=${this.state.media_name}`).then(res => res.json()).then(data => {
+    fetch(`/delete_user_watch_list_entry?user_name=${this.props.username}&media_name=${this.state.media_name}`).then(res => res.json()).then(data => {
       this.setState(state => ({
         delete_query_result: data.result
       }));
+      this.getWatchlist();
     });
   }
 
@@ -89,23 +106,20 @@ class Watchlist extends React.Component {
   }
 
   handleSubmit(event) {
-    alert('Username: ' + this.state.user_name + ' Media ID: ' + this.state.media_name + ' Watched: ' + this.state.watched);
+    alert('Username: ' + this.props.username + ' Media ID: ' + this.state.media_name + ' Watched: ' + this.state.watched);
     event.preventDefault();
+  }
+
+  componentDidMount() {
+    this.getWatchlist();
   }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-            
-        {/*change function name to display*/}
-        <button onClick={this.updateWatchlistEntry}>Display Watchlist Entry</button>
-        
+ 
         <form onSubmit={this.handleSubmit}>
-          <label>
-            Username:
-            <input type="text" value={this.state.user_name} onChange={this.handleChangeUsername} />
-          </label>
 
           <label>
             Media Name:
@@ -116,8 +130,6 @@ class Watchlist extends React.Component {
             Watched (true or false):
             <input type="text" value={this.state.watched} onChange={this.handleChangeWatched} />
           </label>
-
-          <input type="submit" value="Submit" />
         </form>
 
         <button onClick={this.createWatchlistEntry}>Create Watchlist Entry</button>
@@ -139,13 +151,16 @@ class Watchlist extends React.Component {
           </label>
         </form>
 
-        <Form className="form-center">
+        {/* <Form className="form-center">
             <FormControl type="text" placeholder="Search" className="" />
-          </Form>
+        </Form> */}
 
         <button onClick={this.lookUpShow}>Keyword Search</button>
         <h3> Keyword Search Results: </h3>
         <p>{this.state.lookup_result}</p>
+
+        <h2>Watchlist:</h2>
+        <p>{this.state.watchlist}</p>
 
         </header>
       </div>

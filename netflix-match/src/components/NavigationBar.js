@@ -36,18 +36,22 @@ class NavigationBar extends Component {
     return (
       <Styles>
         <Navbar expand="lg">
-          <Navbar.Brand href="/">Home</Navbar.Brand>
+          <Navbar.Brand><Link to="/">Home</Link></Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav"/>
           {/* BELOW is a search bar we might want later but don't need here, so don't delete yet pls */}
           {/* <Form className="form-center">
             <FormControl type="text" placeholder="Search" className="" />
           </Form> */}
-          <h1 className="title_text">Netflix Match!</h1>
+          <div>
+            <h1 className="title_text">Netflix Match</h1>
+            <h3 style={{color: "white", fontSize: 14}}>Welcome {this.props.username}! {this.props.userID}</h3>
+          </div>
+          
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-              <Nav.Item><Nav.Link href="/Watchlist">Watchlist</Nav.Link></Nav.Item> 
-              <Nav.Item><Nav.Link href="/Account">Account</Nav.Link></Nav.Item>
-              <Nav.Item><Nav.Link href="/About">About</Nav.Link></Nav.Item>
+              <Nav.Item><Link to="/Watchlist">Watchlist</Link></Nav.Item> 
+              <Nav.Item><Link to="/Account">Account</Link></Nav.Item>
+              <Nav.Item><Link to="/About">About</Link></Nav.Item>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

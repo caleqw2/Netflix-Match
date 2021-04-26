@@ -277,3 +277,70 @@ def get_results(results_array):
     media_results = mycursor.fetchall()
 
     return {'result': media_results}
+
+@app.route('/create_or_get_user/<user_name>')
+def create_or_get_user(user_name):
+    mydb = msc.connect(
+        host="104.197.38.184",  # This is the IP of the GCP instance
+        user="root",
+        password="12345",
+        database="netflix_match"
+    )
+    mycursor = mydb.cursor()
+
+    mycursor.execute(f"SELECT user_id FROM User WHERE username='{user_name}'")
+    user_id = mycursor.fetchall()
+    result = {}
+
+    if len(user_id) == 0:
+        mycursor.execute(f"SELECT MAX(user_id) FROM User")
+        user_count = mycursor.fetchall()
+        new_user_id = int(user_count[0][0]) + 1
+        mycursor.execute(f"INSERT INTO User VALUES ({new_user_id}, '{user_name}')")
+        result = {"user_id": new_user_id}
+
+    else:
+        result = {"user_id": user_id}
+
+    mydb.commit()
+    mydb.close()
+
+    return result
+
+@app.route('/get_watchlist/<user_id>')
+def get_watchlist(user_id):
+    mydb = msc.connect(
+        host="104.197.38.184",  # This is the IP of the GCP instance
+        user="root",
+        password="12345",
+        database="netflix_match"
+    )
+    mycursor = mydb.cursor()
+
+    mycursor.execute(f"SELECT media_title, watched FROM UserWatchlistEntry NATURAL JOIN Media WHERE user_id={user_id}")
+    result = mycursor.fetchall()
+
+    mydb.commit()
+    mydb.close()
+
+    return {'result': result}
+
+@app.route('/delete_user/<user_id>')
+def delete_user(user_id):
+    mydb = msc.connect(
+        host="104.197.38.184",  # This is the IP of the GCP instance
+        user="root",
+        password="12345",
+        database="netflix_match"
+    )
+    mycursor = mydb.cursor()
+
+    mycursor.execute(f"SELECT media_title, watched FROM UserWatchlistEntry NATURAL JOIN Media WHERE user_id={user_id}")
+    result = mycursor.fetchall()
+
+    mycursor.execute(f"DELETE FROM User WHERE user_id = {user_id}")
+
+    mydb.commit()
+    mydb.close()
+
+    return {'result': result}

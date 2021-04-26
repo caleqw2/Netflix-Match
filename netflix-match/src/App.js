@@ -15,24 +15,42 @@ import About from './components/About.js';
 import Results from './components/Results.js';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: "",
+      userID: -1
+    };
+
+    this.setUsername = this.setUsername.bind(this);
+    this.setUserID = this.setUserID.bind(this);
+  }
+
+  setUsername(username) {
+    this.setState({username: username});
+  }
+
+  setUserID(userID) {
+    this.setState({userID: userID});
+  }
+
   render() {
     const TITLE = 'My Page Title';
-
+    console.log("App is being reloaded! Omg!");
     return (
       <Router>
         <div>
-          <NavigationBar/>
+          <NavigationBar username={this.state.username} userID={this.state.userID}/>
 
           <Switch>
             <Route path="/About" component={About} />
-            <Route path="/Account" component={Account} />
+            <Route path="/Account" component={() => <Account userID={this.state.userID} setUsername={this.setUsername} setUserID={this.setUserID}/>} />
             <Route path="/Quiz" component={Quiz} />
-            <Route path="/Watchlist" component={Watchlist} />
+            <Route path="/Watchlist" component={() => <Watchlist username={this.state.username} userID={this.state.userID} />} />
             <Route path="/Results" component={Results} />
-            <Route path="/" component={Home} />
+            <Route path="/" component={() => <Home setUsername={this.setUsername} setUserID={this.setUserID} />}/>
           </Switch>
 
-          
         </div>
       </Router>
     );
