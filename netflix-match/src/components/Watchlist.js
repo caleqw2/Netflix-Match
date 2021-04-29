@@ -160,7 +160,7 @@ class Watchlist extends React.Component {
         <p>{this.state.lookup_result}</p>
 
         <h2>Watchlist:</h2>
-        <p>{this.state.watchlist}</p>
+        <pre>{this.state.watchlist}</pre>
 
         </header>
       </div>

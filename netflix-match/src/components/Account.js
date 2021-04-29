@@ -35,7 +35,7 @@ class Account extends Component {
             <div style={{float : 'left', paddingRight : '15px', paddingLeft : '15px', display: "flex"}}>
             <button onClick={this.deleteAccount}>Delete My Account</button>
             </div>
-            <p>You just deleted: {this.state.deletedText}. Have a nice life!</p>
+            {/* <p> You just deleted: {this.state.deletedText}. Have a nice life!</p> */}
         </div>
     );
   }

@@ -121,7 +121,7 @@ class Quiz extends Component {
                     
                     <h1>Results here:</h1>
 
-                    <p>{this.state.resultsString}</p>
+                    <pre>{this.state.resultsString}</pre>
 
                 </div>
 

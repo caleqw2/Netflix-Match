@@ -48,7 +48,7 @@ class NavigationBar extends Component {
           </Form> */}
           <div>
             <h1 className="title_text">Netflix Match</h1>
-            <h3 style={{color: "white", fontSize: 20}}>Welcome {this.props.username}! {this.props.userID}</h3>
+            <h3 style={{color: "white", fontSize: 20}}>Welcome{" " + this.props.username}! </h3>
           </div>
           
           <Navbar.Collapse id="basic-navbar-nav">

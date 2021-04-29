@@ -276,7 +276,11 @@ def get_results(results_array):
     
     media_results = mycursor.fetchall()
 
-    return {'result': media_results}
+    myresult = ""
+    for r in media_results:
+        myresult += f"{r[0]}\n"
+
+    return {'result': myresult}
 
 @app.route('/create_or_get_user/<user_name>')
 def create_or_get_user(user_name):
@@ -318,12 +322,17 @@ def get_watchlist(user_id):
     mycursor = mydb.cursor()
 
     mycursor.execute(f"SELECT media_title, watched FROM UserWatchlistEntry NATURAL JOIN Media WHERE user_id={user_id}")
+
     result = mycursor.fetchall()
+    myresult = ""
+    for r in result:
+        watched = "watched;" if r[1] else "not watched;"
+        myresult += f"{r[0]} - {watched}\n"
 
     mydb.commit()
     mydb.close()
 
-    return {'result': result}
+    return {'result': myresult}
 
 @app.route('/delete_user/<user_id>')
 def delete_user(user_id):
