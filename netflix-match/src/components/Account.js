@@ -32,7 +32,9 @@ class Account extends Component {
     return (
         <div style={{height: "100vh", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
             <img src={pic}/>
+            <div style={{float : 'left', paddingRight : '15px', paddingLeft : '15px', display: "flex"}}>
             <button onClick={this.deleteAccount}>Delete My Account</button>
+            </div>
             <p>You just deleted: {this.state.deletedText}. Have a nice life!</p>
         </div>
     );
