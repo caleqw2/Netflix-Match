@@ -73,7 +73,7 @@ class Home extends Component {
       
         <div>
 
-          <div style={{paddingTop : "50px", height: "100vh", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
+          <div style={{paddingTop : "50px", height: "90vh", width: "100%", display: "flex", justifyContent: "center", alignItems: "center"}}>
             <form>
               <label>
                   Please Enter Username:
